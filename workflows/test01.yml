@@ -22,7 +22,7 @@ jobs:
         run: echo "::set-output name=wotag::$(date +'%A')"
       - name: Get current time
         id: timenow
-        run: echo "::set-output name=jetzt::$(date)"
+        run: echo "::set-output name=jetzt::$(date.now)"
       - name: Zeitdifferenz
         id: timegap
         run: echo "::set-output name=differenz::${{ fromJSON(steps.weatherapi.outputs.data).daily.0.sunset }} - steps.date.outputs.jetzt"
