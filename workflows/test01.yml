@@ -26,12 +26,12 @@ jobs:
       - name: Zeitdifferenz
         id: timegap
         run: echo "::set-output name=differenz::${{ fromJSON(steps.weatherapi.outputs.data).daily.0.sunset }} - steps.date.outputs.jetzt"
-      - if: ${{ fromJSON(steps.weatherapi.outputs.data).daily.0.clouds }}  < 25 && steps.date.outputs.wotag != 'Friday' && ${{ fromJSON(steps.weatherapi.outputs.data).daily.0.sunset }} - steps.date.outputs.jetzt > 5000
+      - if: ${{ fromJSON(steps.weatherapi.outputs.data).daily.0.clouds }}  < 25 && steps.date.outputs.wotag != 'Friday'
         uses: joelwmale/webhook-action@master
         with:
           url: ${{ secrets.WEBEX_URL_ROOMTEST }}
           body: '{"markdown": "Dienstende Markus<br>Ich wünsche Euch einen sonnigen Feierabend!<br>${{steps.date.outputs.differenz}}"}'
-      - if: ${{ fromJSON(steps.weatherapi.outputs.data).daily.0.clouds }}  >= 25 && steps.date.outputs.wotag != 'Friday' && ${{ fromJSON(steps.weatherapi.outputs.data).daily.0.sunset }} - steps.date.outputs.jetzt > 5000
+      - if: ${{ fromJSON(steps.weatherapi.outputs.data).daily.0.clouds }}  >= 25 && steps.date.outputs.wotag != 'Friday'
         uses: joelwmale/webhook-action@master
         with:
           url: ${{ secrets.WEBEX_URL_ROOMTEST }}
