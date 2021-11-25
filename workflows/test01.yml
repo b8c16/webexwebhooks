@@ -25,7 +25,7 @@ jobs:
         run: echo "::set-output name=jetzt::$(date +'%s')"
       - name: Zeitdifferenz
         id: timegap
-        run: echo "::set-output name=differenz::${{ fromJSON(steps.weatherapi.outputs.data).daily.0.sunset }} - steps.date.outputs.jetzt"
+        run: echo "::set-output name=differenz::${{ fromJSON(steps.weatherapi.outputs.data).daily.0.sunset }} - ${{ steps.date.outputs.jetzt }}"
       - if: ${{ fromJSON(steps.weatherapi.outputs.data).daily.0.clouds }}  < 25 && steps.date.outputs.wotag != 'Friday'
         uses: joelwmale/webhook-action@master
         with:
