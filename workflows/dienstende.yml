@@ -2,7 +2,7 @@ on:
   webhook:
     method: get
     config:
-      active: true
+      active: false
       force: true
       debug: true
       logLevel: debug
