@@ -1,0 +1,48 @@
+on:
+  webhook:
+    method: get
+    config:
+      active: true
+      force: true
+      debug: true
+      logLevel: debug
+jobs:
+  test-curl-action:
+    name: 'Perform REST API'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get openweathermap
+        uses: actionsflow/axios@v1
+        id: weatherapi
+        with:
+          url: ${{ secrets.WETTER_URL }}
+          method: 'GET'
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=wotag::$(date +'%A')"
+      - name: Get current time
+        id: timenow
+        run: echo "::set-output name=jetzt::$(date)"
+      - name: Zeitdifferenz
+        id: timegap
+        run: echo "::set-output name=differenz::${{ fromJSON(steps.weatherapi.outputs.data).daily.0.sunset }} - steps.date.outputs.jetzt"
+      - if: ${{ fromJSON(steps.weatherapi.outputs.data).daily.0.clouds }}  < 25 && steps.date.outputs.wotag != 'Friday' && ${{ fromJSON(steps.weatherapi.outputs.data).daily.0.sunset }} - steps.date.outputs.jetzt > 5000
+        uses: joelwmale/webhook-action@master
+        with:
+          url: ${{ secrets.WEBEX_URL_ROOMTEST }}
+          body: '{"markdown": "Dienstende Markus<br>Ich wünsche Euch einen sonnigen Feierabend!<br>${{steps.date.outputs.differenz}}"}'
+      - if: ${{ fromJSON(steps.weatherapi.outputs.data).daily.0.clouds }}  >= 25 && steps.date.outputs.wotag != 'Friday' && ${{ fromJSON(steps.weatherapi.outputs.data).daily.0.sunset }} - steps.date.outputs.jetzt > 5000
+        uses: joelwmale/webhook-action@master
+        with:
+          url: ${{ secrets.WEBEX_URL_ROOMTEST }}
+          body: '{"markdown": "Dienstende Markus<br>Ich wünsche Euch einen schönen Feierabend!<br>${{steps.date.outputs.differenz}}"}'
+      - if: ${{ fromJSON(steps.weatherapi.outputs.data).daily.1.clouds }}  < 25 && steps.date.outputs.wotag == 'Friday'
+        uses: joelwmale/webhook-action@master
+        with:
+          url: ${{ secrets.WEBEX_URL_ROOMTEST }}
+          body: '{"markdown": "Dienstende Markus<br>Ich wünsche Euch ein sonniges Wochenende!"}'
+      - if: ${{ fromJSON(steps.weatherapi.outputs.data).daily.1.clouds }}  >= 25 && steps.date.outputs.wotag == 'Friday'
+        uses: joelwmale/webhook-action@master
+        with:
+          url: ${{ secrets.WEBEX_URL_ROOMTEST }}
+          body: '{"markdown": "Dienstende Markus<br>Ich wünsche Euch ein schönes Wochenende!"}'
