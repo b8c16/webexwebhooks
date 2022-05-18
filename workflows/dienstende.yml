@@ -29,25 +29,25 @@ jobs:
       - if: ${{ fromJSON(steps.weatherapi.outputs.data).daily.0.clouds }}  < 25 && steps.date.outputs.wotag != 'Friday' && steps.timegap.outputs.differenz > 1800
         uses: joelwmale/webhook-action@master
         with:
-          url: ${{ secrets.WEBEX_URL_ROOMSCM }}
+          url: ${{ secrets.WEBEX_URL_ROOMMRKS }}
           body: '{"markdown": "Dienstende Markus<br>Ich wünsche Euch einen sonnigen Feierabend!"}'
       - if: ${{ fromJSON(steps.weatherapi.outputs.data).daily.0.clouds }}  < 25 && steps.date.outputs.wotag != 'Friday' && steps.timegap.outputs.differenz <= 1800
         uses: joelwmale/webhook-action@master
         with:
-          url: ${{ secrets.WEBEX_URL_ROOMSCM }}
+          url: ${{ secrets.WEBEX_URL_ROOMMRKS }}
           body: '{"markdown": "Dienstende Markus<br>Ich wünsche Euch einen schönen Feierabend!"}'
       - if: ${{ fromJSON(steps.weatherapi.outputs.data).daily.0.clouds }}  >= 25 && steps.date.outputs.wotag != 'Friday'
         uses: joelwmale/webhook-action@master
         with:
-          url: ${{ secrets.WEBEX_URL_ROOMSCM }}
+          url: ${{ secrets.WEBEX_URL_ROOMMRKS }}
           body: '{"markdown": "Dienstende Markus<br>Ich wünsche Euch einen schönen Feierabend!"}'
       - if: ${{ fromJSON(steps.weatherapi.outputs.data).daily.1.clouds }}  < 25 && steps.date.outputs.wotag == 'Friday'
         uses: joelwmale/webhook-action@master
         with:
-          url: ${{ secrets.WEBEX_URL_ROOMSCM }}
+          url: ${{ secrets.WEBEX_URL_ROOMMRKS }}
           body: '{"markdown": "Dienstende Markus<br>Ich wünsche Euch ein sonniges Wochenende!"}'
       - if: ${{ fromJSON(steps.weatherapi.outputs.data).daily.1.clouds }}  >= 25 && steps.date.outputs.wotag == 'Friday'
         uses: joelwmale/webhook-action@master
         with:
-          url: ${{ secrets.WEBEX_URL_ROOMSCM }}
+          url: ${{ secrets.WEBEX_URL_ROOMMRKS }}
           body: '{"markdown": "Dienstende Markus<br>Ich wünsche Euch ein schönes Wochenende!"}'
