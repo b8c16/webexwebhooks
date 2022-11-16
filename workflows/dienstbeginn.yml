@@ -50,3 +50,12 @@ jobs:
         with:
           url: ${{ secrets.WEBEX_URL_ROOMMRKS }}
           body: '{"markdown": "Dienstbeginn Markus<br>Ich wünsche Euch einen schönen ${{steps.translate.outputs.wotag}}!"}'
+      - name: Make a HTTP Request to Webex
+        uses: actionsflow/axios@main
+        with:
+          url: ${{ secrets.WEBEX_URL_ROOMMRKS }}
+          method: POST
+          body: |
+            {
+              "markdown": "Dienstbeginn Markus<br>Ich wünsche Euch einen schönen ${{steps.translate.outputs.wotag}}!"
+            }
