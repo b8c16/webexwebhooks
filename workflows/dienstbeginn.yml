@@ -45,11 +45,11 @@ jobs:
           else
             echo "::set-output name=wotag::Arbeitstag"
           fi
-      - name: Sende an Webex
-        uses: joelwmale/webhook-action@master
-        with:
-          url: ${{ secrets.WEBEX_URL_ROOMMRKS }}
-          body: '{"markdown": "Dienstbeginn Markus<br>Ich wünsche Euch einen schönen ${{steps.translate.outputs.wotag}}!"}'
+#      - name: Sende an Webex
+#        uses: joelwmale/webhook-action@master
+#        with:
+#          url: ${{ secrets.WEBEX_URL_ROOMMRKS }}
+#          body: '{"markdown": "Dienstbeginn Markus<br>Ich wünsche Euch einen schönen ${{steps.translate.outputs.wotag}}!"}'
       - name: Make a HTTP Request to Webex
         uses: actionsflow/axios@main
         with:
